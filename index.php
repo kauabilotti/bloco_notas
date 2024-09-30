@@ -18,6 +18,7 @@ if ($conn->connect_error) {
     <title>Document</title>
 </head>
 <body>
+    <form>
     
 </body>
 </html>
