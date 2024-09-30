@@ -5,38 +5,13 @@ $username = "root";
 $password = "root";
 $dbname = "bloco";
 
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Conexão falhou: " . $e->getMessage());
-}
-
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $titulo = trim($_POST['titulo']);
-    $conteudo = trim($_POST['conteudo']);
-    $usuario_id = trim($_POST['usuario_id']); 
-
-    
-    if (empty($titulo) || empty($conteudo)) {
-        die('Título e conteúdo são obrigatórios.');
-    }
-
-    
-    $stmt = $conn->prepare("INSERT INTO notas (titulo, conteudo, usuario_id) VALUES (:titulo, :conteudo, :usuario_id)");
-    $stmt->bindParam(':titulo', $titulo);
-    $stmt->bindParam(':conteudo', $conteudo);
-    $stmt->bindParam(':usuario_id', $usuario_id);
-
-    if ($stmt->execute()) {
-        echo "Nota criada com sucesso!";
-    } else {
-        echo "Erro ao criar a nota.";
-    }
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
